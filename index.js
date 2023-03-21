@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const connect = require('./db/connect');
+const db = require('./db/connect');
 
 db.connect(err => {
     if (err) throw err;
@@ -15,7 +15,7 @@ let employee_tracker = function () {
         choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add role', 'Add an employee', 'Update employee role', 'Quit']
     }]).then ((answers) => {
         if (answers.prompt === 'View all departments') {
-            db.query(`SELECT * FROM departments`, (err, result) => {
+            db.query(`SELECT * FROM department`, (err, result) => {
                 if (err) throw err;
                 console.log('Now viewing all departments');
                 console.table(result);
@@ -23,7 +23,7 @@ let employee_tracker = function () {
             });
 
         } else if (answers.prompt === 'View all roles') {
-            db.query(`SELECT * FROM roles`, (err, result) => {
+            db.query(`SELECT * FROM role`, (err, result) => {
                 if (err) throw err;
                 console.log('Now viewing all roles');
                 console.table(result);
@@ -31,7 +31,7 @@ let employee_tracker = function () {
             });
 
         } else if (answers.prompt === 'View all employees') {
-            db.query(`SELECT * FROM employees`, (err, result) => {
+            db.query(`SELECT * FROM employee`, (err, result) => {
                 if (err) throw err;
                 console.log('Now viewing all employees');
                 console.table(result);
