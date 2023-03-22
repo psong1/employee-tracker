@@ -12,7 +12,7 @@ let employee_tracker = function () {
         type: 'list',
         name: 'prompt',
         message: 'Please select an option.',
-        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add role', 'Add an employee', 'Update employee role', 'Quit']
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update employee role', 'Quit']
     }]).then ((answers) => {
         if (answers.prompt === 'View all departments') {
             db.query(`SELECT * FROM department`, (err, result) => {
@@ -78,14 +78,14 @@ let employee_tracker = function () {
                     }
                 }
             ]).then((answers) => {
-                for (let i = 0; i < result.length; i++) {
+                for (var i = 0; i < result.length; i++) {
                     if (result[i].name === answers.department) {
-                        let department = result[i];
+                        var department = result[i];
                     }
                 }
-                db.query(`INSERT INTO role (title, salary department_id) VALUES (?, ?, ?)`, [answers.role, answers.salary, department.id], (err, result) => {
+                db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`, [answers.role, answers.salary, department.id], (err, result) => {
                     if (err) throw err;
-                    console.log(`${answers.role} has been added.`);
+                    console.log(`${answers.role} has been added to the database.`)
                     employee_tracker();
                 })
             });
@@ -114,17 +114,17 @@ let employee_tracker = function () {
                     {
                         type: 'input',
                         name: 'manager',
-                        message: 'Who is the employees manager?',
+                        message: `Who is the employee's manager?`,
                     }
                 ]).then((answers) => {
-                    for (let i = 0; i < result.length; i++) {
+                    for (var i = 0; i < result.length; i++) {
                         if (result[i].title === answers.role) {
-                            let role = result[i];
+                            var role = result[i];
                         }
                     }
-                    db.query(`INSERT INTO employee (first_name, last_name, manager_id) VALUES (?, ?, ?, ?)`, [answers.firstName. answers.lastName, role.id, answers.manager], (err, result) => {
+                    db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`, [answers.firstName, answers.lastName, role.id, answers.manager.id], (err, result) => {
                         if (err) throw err;
-                        console.log(`${answers.firstName} ${answers.lastName} has been added.`);
+                        console.log(`${answers.firstName} ${answers.lastName} has been added to the database.`)
                         employee_tracker();
                     });
                 })
@@ -152,30 +152,30 @@ let employee_tracker = function () {
                         name: 'role',
                         message: `What is the employee's new role?`,
                         choices: () => {
-                            let array = [];
-                            for (let i = 0; i < result.length; i++) {
-                                array.push(result[i].last_name);
+                            var array = [];
+                            for (var i = 0; i < result.length; i++) {
+                                array.push(result[i].title);
                             }
-                            let roleArr = [...new Set(array)];
-                            return roleArr;
+                            var newArray = [...new Set(array)];
+                            return newArray;
                         }
                     }
                 ]).then((answers) => {
-                    for (let i = 0; i < result.length; i++) {
+                    for (var i = 0; i < result.length; i++) {
                         if (result[i].last_name === answers.employee) {
-                            let name = result[i];
+                            var name = result[i];
                         }
                     }
 
-                    for (let i = 0; i < result.length; i++) {
+                    for (var i = 0; i < result.length; i++) {
                         if (result[i].title === answers.role) {
-                            let role = result[i];
+                            var role = result[i];
                         }
                     }
 
                     db.query(`UPDATE employee SET ? WHERE ?`, [{role_id: role}, {last_name: name}], (err, result) => {
                         if (err) throw err;
-                        console.log(`${answers.employee} has been updated.`);
+                        console.log(`${answers.employee}'role has been updated in the database.`)
                         employee_tracker();
                     });
                 })
