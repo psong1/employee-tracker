@@ -152,11 +152,11 @@ let employee_tracker = function () {
                         name: 'role',
                         message: `What is the employee's new role?`,
                         choices: () => {
-                            var array = [];
-                            for (var i = 0; i < result.length; i++) {
+                            let array = [];
+                            for (let i = 0; i < result.length; i++) {
                                 array.push(result[i].title);
                             }
-                            var newArray = [...new Set(array)];
+                            let newArray = [...new Set(array)];
                             return newArray;
                         }
                     }
@@ -175,7 +175,7 @@ let employee_tracker = function () {
 
                     db.query(`UPDATE employee SET ? WHERE ?`, [{role_id: role}, {last_name: name}], (err, result) => {
                         if (err) throw err;
-                        console.log(`${answers.employee}'role has been updated in the database.`)
+                        console.log(`${answers.employee}'s role has been updated in the database.`)
                         employee_tracker();
                     });
                 })
