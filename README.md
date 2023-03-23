@@ -9,6 +9,7 @@ This is a command-line application that manages an employee database. The databa
 * Node.js
 * Inquirer
 * MySQL
+* console.table
 
 ## Installation
 
@@ -17,6 +18,7 @@ Users can install the application by using the HTTPS and 'git clone' in the term
 * inquirer - npm i inquirer@8.2.4
 * node.js
 * mysql2
+* console.table - npm i console.table
 
 ## Usage
 
